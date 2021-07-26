@@ -79,7 +79,7 @@ class PiSensewx(StdService):
         self.default_units = self.PiSense_dict.get('usUnits', 'US').upper()
         self.default_units = weewx.units.unit_constants[self.default_units]
 
-        self.temperatureKeys = surely_a_list(self.PiSense_dict.get('temperatureKeys', 'inTemp'))
+        self.temperatureKeys = surely_a_list(self.PiSense_dict.get('temperatureKeys', 'extraTemp1'))
         self.temperature_must_have = surely_a_list(self.PiSense_dict.get('temperature_must_have', []))
 
         # The conversion from station pressure to MSL barometric pressure depends on the
@@ -88,7 +88,7 @@ class PiSensewx(StdService):
         self.pressureKeys = surely_a_list(self.PiSense_dict.get('pressureKeys', 'pressure'))
         self.pressure_must_have = surely_a_list(self.PiSense_dict.get('pressure_must_have', []))
 
-        self.humidityKeys = surely_a_list(self.PiSense_dict.get('humidityKeys', 'inHumidity'))
+        self.humidityKeys = surely_a_list(self.PiSense_dict.get('humidityKeys', 'outHumidity'))
         self.humidity_must_have = surely_a_list(self.PiSense_dict.get('humidity_must_have', []))
 
         self.bus = smbus.SMBus(self.port)
