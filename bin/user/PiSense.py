@@ -100,6 +100,7 @@ class PiSensewx(StdService):
         loginf('I2C port: %s' % self.port)
         loginf('I2C address: %s' % hex(self.address))
         loginf('fallback default units: %s' % weewx.units.unit_nicknames[self.default_units])
+        loginf('keys: %s %s %s' % (self.pressureKeys,self.temperatureKeys, self.humidityKeys))
         
         #init SHTC3 dll
         self.dll = ctypes.CDLL("./bin/user/SHTC3.so")
@@ -270,26 +271,24 @@ class PiSensewx(StdService):
         else:
             converter = weewx.units.StdUnitConverters[self.default_units]
             
+        #temperatureC = (TEMP_DATA, 'degree_C', 'group_temperature')
+        #converted = converter.convert(temperatureC)
+        #packet['extraTemp2']=converted[0]
+       
+        pressurePA = (PRESS_DATA, 'mbar', 'group_pressure')
+        converted = converter.convert(pressurePA)
+        for key in self.pressureKeys:
+            logdbg("pressure to key "+key+" value"+str(converted[0]))
+            packet[key] = converted[0]
+
         temperatureC = (TEMP_DATA, 'degree_C', 'group_temperature')
         converted = converter.convert(temperatureC)
-        packet['extraTemp2']=converted[0]
-       
-        if all(must_have in packet for must_have in self.pressure_must_have):
-            pressurePA = (PRESS_DATA, 'mbar', 'group_pressure')
-            converted = converter.convert(pressurePA)
-            for key in self.pressureKeys:
-                packet[key] = converted[0]
+        for key in self.temperatureKeys:
+            packet[key] = converted[0]
 
-        if all(must_have in packet for must_have in self.temperature_must_have):
-            temperatureC = (PiTemp, 'degree_C', 'group_temperature')
-            converted = converter.convert(temperatureC)
-            for key in self.temperatureKeys:
-                packet[key] = converted[0]
-
-        if all(must_have in packet for must_have in self.humidity_must_have):
-            humidityPCT = (Humid, 'percent', 'group_percent')
-            converted = converter.convert(humidityPCT)
-            for key in self.humidityKeys:
-                packet[key] = converted[0]
+        humidityPCT = (Humid, 'percent', 'group_percent')
+        converted = converter.convert(humidityPCT)
+        for key in self.humidityKeys:
+            packet[key] = converted[0]
 
         logdbg(packet)

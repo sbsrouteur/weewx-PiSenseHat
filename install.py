@@ -6,24 +6,25 @@ from bin.user.PiSense import PiSensewx
 from weecfg.extension import ExtensionInstaller
 
 def loader():
-    return PiSenseHayInstaller()
+    return PiSenseHatInstaller()
 
-class PiSenseHayInstaller(ExtensionInstaller):
+class PiSenseHatInstaller(ExtensionInstaller):
     def __init__(self):
-        super(PiSenseHayInstaller, self).__init__(
+        super(PiSenseHatInstaller, self).__init__(
             version="0.1",
             name='Pi Sense Hat Service',
             description='Service to include PiSense sensor to WeeWx loop.',
             author="sbsrouteur",
             author_email="sbsrouteur@free.fr",
-            restful_services='user.PiSense.PiSensewx',
+            data_services='user.PiSense.PiSensewx',
             config={
                 'PiSensewx': {
-                    'i2c_port' : '1'
-                    'i2c_address' : '0x5c'
-                    'temperatureKeys' : 'extraTemp1'
-                    'pressureKeys' : 'pressure'
-                    'humidityKeys' : 'outHumidty'}
+                    'i2c_port' : '1',
+                    'i2c_address' : '0x5c',
+                    'temperatureKeys' : 'extraTemp1',
+                    'pressureKeys' : 'pressure',
+                    'humidityKeys' : 'outHumidity'
+                    }
                 },
-            files=[('bin/user', ['bin/user/PiSense.py','bin/users/TCS34725.py'])]
+            files=[('bin/user', ['bin/user/TCS34725.py','bin/user/PiSense.py'])]
             )

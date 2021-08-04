@@ -4,29 +4,34 @@ This service allows including in WeeWx acquisition loop data from a PiSense Hat 
 
 Since this devices uses common component, there are good chances another hat with the same component may work with this service.
 
-# Installation
+## Installation
 
-## Prerequisites
+### Prerequisites
 
 - You need a Pi Sense Hat (https://www.waveshare.com/wiki/Sense_HAT_(B))
 - Install the required libs and programs as per wiki instructions:
   - BCM2835 libraries
   - Pyhton Libraries
+- Download SHTC3 Sample 
 
-## WeeWx extension
-### Installation
+### WeeWx extension
+
+#### Extension installation
+
 To install the extension, just download the last release file, and run the weewx installation command:
-```
-wee_extension --install PiSenseHatVxxxx.zip
+
+```shell
+wee_extension --install PiSenseHat_Vxxx.zip
 ```
 
-copy the sdhtc3 lib from ... to WEEWX_HOME/bin/user
+copy the sdhtc3.so lib from SHTC3 sample to WEEWX_HOME/bin/user
 
 Update configuration and restart Weewx.
 
-### Configuration
+#### Configuration
+
 The configuration entries are in the \[\[PiSensewx\]\] section.
-Entries are : 
+Entries are :
 
 Entry | Default Value | Comment
 ------|---------------|----------
@@ -36,5 +41,5 @@ temperatureKeys | extraTemp1 | Temperature key to store the temperature read fro
 pressureKeys | pressure | Pressure keys to store read from LPS22HB
 humidityKeys | outHumidity | Humidity keys to store the humidity read from SHTC3
 
-radiation level is read from TCS34725 and stored in WeeWx radiation key. No configuration key for this one at the moment.
+radiation level is read from TCS34725 and stored in WeeWx radiation key. No configuration key for this one at the moment. radiation measure implement a simple autogain to take full advantage of the sensor range.
 

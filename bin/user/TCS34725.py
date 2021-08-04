@@ -377,20 +377,3 @@ class TCS34725:
 
     def SetLight(self, value):
         self.pwm.start(value)
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-
-
-\
